@@ -20,7 +20,7 @@ npm install -S antoninlanglade/react-smooth-scroll
 ```
 
 Into Webpack babel loaders
-```json
+```javascript
 { 
   test: /\.jsx?$/,
   exclude: /node_modules\/(?!(react-smooth-scroll)\/).*/,
