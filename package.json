@@ -1,0 +1,31 @@
+{
+  "name": "react-smooth-scroll",
+  "version": "0.0.1",
+  "description": "Smooth Scroll into React components",
+  "main": "index.js",
+  "dependencies": {
+    "lodash": "^4.17.2",
+    "raf": "github:pqml/raf",
+    "react-dom": "^15.4.1",
+    "virtual-scroll": "^1.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antoninlanglade/react-smooth-scroll.git"
+  },
+  "keywords": [
+    "React",
+    "SmoothScroll",
+    "Decorator"
+  ],
+  "author": "antoninlanglade",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/antoninlanglade/react-smooth-scroll/issues"
+  },
+  "homepage": "https://github.com/antoninlanglade/react-smooth-scroll#readme"
+}
