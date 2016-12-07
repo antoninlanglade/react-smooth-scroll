@@ -23,10 +23,10 @@ npm install -S antoninlanglade/react-smooth-scroll
 
 ## Example
 ```javascript
-import {smoothScrollManager, SmoothScrollDecorator} from 'react-smooth-scroll';
+import SmoothScroll from 'react-smooth-scroll';
 
 // If you want to use decorator
-@SmoothScrollDecorator
+@SmoothScroll.SmoothScrollDecorator
 
 // Else you can setup with more params 
 export default class Page extends React.Component {
@@ -36,12 +36,12 @@ export default class Page extends React.Component {
 
   // ComponentDidMount
   componentDidMount() {
-    virtualScrollManager.add(this.refs.component, customEase, this.scrollUpdate);
+    SmoothScroll.virtualScrollManager.add(this.refs.component, customEase, this.scrollUpdate);
   }
 
   // ComponentWillUnmount
   componentWillUnmount() {
-    virtualScrollManager.remove(this.refs.component);
+    SmoothScroll.virtualScrollManager.remove(this.refs.component);
   }
 
   // ScrollUpdate with y offset 
@@ -63,7 +63,7 @@ export default class Page extends React.Component {
 
 ## Usage
 
-### `smoothScrollManager.add(DOMNode, ease, scrollUpdateFunction)`
+### `SmoothScroll.smoothScrollManager.add(DOMNode, ease, scrollUpdateFunction)`
 
 Add an element into SmoothScrollManager : 
 <br>
@@ -82,7 +82,7 @@ Example:
 
 <br>
 
-### `smoothScrollManager.remove(DOMNode)`
+### `SmoothScroll.smoothScrollManager.remove(DOMNode)`
 
 Remove an element from SmoothScrollManager : 
 <br>
@@ -97,7 +97,7 @@ Example:
 
 <br>
 
-### `smoothScrollManager.reset(DOMNode, position)`
+### `SmoothScroll.smoothScrollManager.reset(DOMNode, position)`
 
 Reset position of an element on y axis from SmoothScrollManager : 
 <br>
