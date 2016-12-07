@@ -19,25 +19,6 @@ Minimal class to manage Smooth Scroll into React components based on [virtual-sc
 npm install -S antoninlanglade/react-smooth-scroll
 ```
 
-Into Webpack babel loaders
-```
-{ 
-  test: /\.jsx?$/,
-  exclude: /node_modules\/(?!(react-smooth-scroll)\/).*/,
-  loader: 'babel',
-  query: {
-      presets: ['react', 'es2015', 'stage-1'],
-      plugins: [
-          'transform-decorators-legacy', [
-              'transform-es2015-classes', {
-                  loose: true
-              }
-          ]
-      ]
-  }
-}
-```
-
 <br>
 
 ## Example
