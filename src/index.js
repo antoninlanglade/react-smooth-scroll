@@ -113,4 +113,4 @@ var SmoothScrollDecorator = function decorator(target) {
     };
 };
 
-export {smoothScrollManager, SmoothScrollDecorator}
+export default {smoothScrollManager, SmoothScrollDecorator}
