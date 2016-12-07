@@ -1,8 +1,11 @@
 import _ from 'lodash';
 import RAF from 'raf';
+import VirtualScroll from 'virtual-scroll';
 import ReactDOM from 'react-dom';
 
-class ScrollAppearManager {
+const EASE = 0.1;
+
+class SmoothScrollManager {
 
     constructor() {
         this.elements = [];
@@ -10,15 +13,24 @@ class ScrollAppearManager {
         this.isRunning = false;
     }
 
-    add(element, instance) {
+    add(element, ease, update) {
         if (this.findElement(element)) {
             return false;
         }
+
+        var virtual = new VirtualScroll({});
+
+        virtual.on(this.onScroll.bind(this, element));
+
         var object = {
-            instance : element,
-            el : ReactDOM.findDOMNode(element),
-            appear : false
+            el : element,
+            virtual : virtual,
+            ease : ease,
+            update : update,
+            targetY : 0,
+            currentY : 0
         };
+
         this.elements.push(object);
 
         if (this.elements.length > 0 && !this.isRunning) {
@@ -29,7 +41,7 @@ class ScrollAppearManager {
 
     findElement(element) {
         return _.find(this.elements, function(o) {
-            return o.instance === element;
+            return o.el === element;
         });
     }
 
@@ -40,58 +52,65 @@ class ScrollAppearManager {
             return;
         }
 
-        _.remove(this.elements, function(item) {
-            return item.instance === element;
-        });
+        object.virtual.off(this.onScroll.bind(this, element));
+        object.virtual.destroy();
 
+        _.remove(this.elements, function(item) {
+            return item.el === element;
+        });
         if (this.elements.length === 0) {
             this.isRunning = false;
             RAF.remove(this.run);
         }
     }
 
-    isVisible(element) {
-        var bounds = element.getBoundingClientRect();
-        if (bounds.top  >= 0 && bounds.bottom - bounds.height*0.5<= window.innerHeight){
-            return true;
-        }
-        else {
-            return false;
-        }
+    resetPosition(element, position) {
+        var object = this.findElement(element);
+        object.currentY = position ? position : 0;
+        object.targetY = position ? position : 0;
+    }
+
+    onScroll(element, e) {
+        var object = this.findElement(element);
+        object.sectionHeight = object.el.getBoundingClientRect().height;
+        object.targetY += e.deltaY;
+        object.targetY = Math.max( (object.sectionHeight - window.innerHeight) * -1, object.targetY);
+        object.targetY = Math.min(0, object.targetY);
     }
 
     run() {
-        var visible;
         _.forEach(this.elements, (element) => {
-            visible = this.isVisible(element.el);
-            if (!visible) return true;
-            if (element.appear) return true;
-
-            if (this.isVisible(element.el) && !element.appear) {
-                element.appear = true;
-                element.instance.scrollAppear && element.instance.scrollAppear();
-            }
+            element.update && element.update(element.targetY);
+            element.currentY += (element.targetY - element.currentY) * (element.ease ? element.ease : EASE);
+            var t = 'translateY(' + element.currentY + 'px) translateZ(0)';
+            var s = element.el.style;
+            s["transform"] = t;
+            s["webkitTransform"] = t;
+            s["mozTransform"] = t;
+            s["msTransform"] = t;
         });
     }
 }
 
-var scrollAppearManager = new ScrollAppearManager();
+var smoothScrollManager = new SmoothScrollManager();
 
-var ScrollAppearDecorator = function decorator(target) {
+var SmoothScrollDecorator = function decorator(target) {
     var componentDidMount = target.prototype.componentDidMount,
         componentWillUnmount = target.prototype.componentWillUnmount;
 
     // ComponentDidMount
     target.prototype.componentDidMount = function() {
-        scrollAppearManager.add(this);
+        var el = ReactDOM.findDOMNode(this);
+        smoothScrollManager.add(el);
         componentDidMount && componentDidMount.call(this);
     };
 
     // ComponentWillUnmount
     target.prototype.componentWillUnmount = function() {
-        scrollAppearManager.remove(this);
+        var el = ReactDOM.findDOMNode(this);
+        smoothScrollManager.remove(el);
         componentWillUnmount && componentWillUnmount.call(this);
     };
 };
 
-export default {scrollAppearManager, ScrollAppearDecorator};
+export {smoothScrollManager, SmoothScrollDecorator}
