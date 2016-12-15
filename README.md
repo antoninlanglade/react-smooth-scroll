@@ -36,12 +36,12 @@ export default class Page extends React.Component {
 
   // ComponentDidMount
   componentDidMount() {
-    SmoothScroll.virtualScrollManager.add(this.refs.component, customEase, this.scrollUpdate);
+    SmoothScroll.smoothScrollManager.add(this.refs.component, customEase, this.scrollUpdate);
   }
 
   // ComponentWillUnmount
   componentWillUnmount() {
-    SmoothScroll.virtualScrollManager.remove(this.refs.component);
+    SmoothScroll.smoothScrollManager.remove(this.refs.component);
   }
 
   // ScrollUpdate with y offset 
@@ -77,7 +77,7 @@ Add an element into SmoothScrollManager :
 <br>
 Example:
 ```js
-  virtualScrollManager.add(this.refs.component, 0.1, (y) => { console.log(y) });
+  SmoothScroll.smoothScrollManager.add(this.refs.component, 0.1, (y) => { console.log(y) });
 ```
 
 <br>
@@ -92,7 +92,7 @@ Remove an element from SmoothScrollManager :
 <br>
 Example:
 ```js
-  virtualScrollManager.remove(this.refs.component);
+  SmoothScroll.smoothScrollManager.remove(this.refs.component);
 ```
 
 <br>
@@ -110,7 +110,7 @@ Reset position of an element on y axis from SmoothScrollManager :
 <br>
 Example:
 ```js
-  virtualScrollManager.reset(this.refs.component, 30.0);
+  SmoothScroll.smoothScrollManager.reset(this.refs.component, 30.0);
 ```
 
 <br>
