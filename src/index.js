@@ -78,6 +78,10 @@ class SmoothScrollManager {
         object.targetY = Math.min(0, object.targetY);
     }
 
+    stopScroll(bool) {
+        bool ? RAF.remove(this.run) : RAF.add(this.run);
+    }
+
     run() {
         _.forEach(this.elements, (element) => {
             element.update && element.update(element.targetY);
