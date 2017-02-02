@@ -11,6 +11,7 @@ class SmoothScrollManager {
         this.elements = [];
         this.run = this.run.bind(this);
         this.isRunning = false;
+        this.isStopped = false;
     }
 
     add(element, ease, update) {
@@ -71,6 +72,7 @@ class SmoothScrollManager {
     }
 
     onScroll(element, e) {
+        if (this.isStopped) return false;
         var object = this.findElement(element);
         object.sectionHeight = object.el.getBoundingClientRect().height;
         object.targetY += e.deltaY;
@@ -79,6 +81,7 @@ class SmoothScrollManager {
     }
 
     stopScroll(bool) {
+        this.isStopped = bool;
         bool ? RAF.remove(this.run) : RAF.add(this.run);
     }
 
