@@ -14,7 +14,7 @@ class SmoothScrollManager {
         this.isStopped = false;
     }
 
-    add(element, ease, update) {
+    add(element, ease, update, yStart) {
         if (this.findElement(element)) {
             return false;
         }
@@ -28,8 +28,8 @@ class SmoothScrollManager {
             virtual : virtual,
             ease : ease,
             update : update,
-            targetY : 0,
-            currentY : 0
+            targetY: yStart || 0,
+            currentY: yStart || 0
         };
 
         this.elements.push(object);
