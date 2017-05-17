@@ -1,7 +1,7 @@
 {
   "name": "react-smooth-scroll",
   "description": "<h1 align=\"center\">Lib Name</h1> <h3 align=\"center\">Lib Description</h3>",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "scripts": {
     "build": "NODE_ENV=production webpack -p --config ./webpack.production.config.js --progress --colors",
     "start": "webpack-dev-server --watch -d --progress --colors"
