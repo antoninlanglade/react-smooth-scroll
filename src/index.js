@@ -40,6 +40,16 @@ class SmoothScrollManager {
         }
     }
 
+    pause(element) {
+        var object = this.findElement(element);
+        object && object.virtual && object.virtual.off(this.onScroll.bind(this, element));
+    }
+
+    resume(element) {
+        var object = this.findElement(element);
+        object && object.virtual && object.virtual.on(this.onScroll.bind(this, element));
+    }
+
     findElement(element) {
         return _.find(this.elements, function(o) {
             return o.el === element;
