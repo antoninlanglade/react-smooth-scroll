@@ -43,12 +43,12 @@ class SmoothScrollManager {
 
     pause(element) {
         var object = this.findElement(element);
-        object.paused = true;
+        if(object) object.paused = true;
     }
 
     resume(element) {
         var object = this.findElement(element);
-        object.paused = false;
+        if(object) object.paused = false;
     }
 
     findElement(element) {
@@ -100,7 +100,7 @@ class SmoothScrollManager {
     run() {
         _.forEach(this.elements, (element) => {
             if (element.paused) return true;
-            element.update && element.update(element.targetY);
+            element.update && element.update(element.currentY);
             element.currentY += (element.targetY - element.currentY) * (element.ease ? element.ease : EASE);
             var t = 'translateY(' + element.currentY + 'px) translateZ(0)';
             var s = element.el.style;
