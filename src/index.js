@@ -100,7 +100,7 @@ class SmoothScrollManager {
     run() {
         _.forEach(this.elements, (element) => {
             if (element.paused) return true;
-            element.update && element.update(element.currentY);
+            element.update && element.update(element.currentY, element.targetY, Math.abs(element.currentY) / (element.sectionHeight - window.innerHeight));
             element.currentY += (element.targetY - element.currentY) * (element.ease ? element.ease : EASE);
             var t = 'translateY(' + element.currentY + 'px) translateZ(0)';
             var s = element.el.style;
