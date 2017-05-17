@@ -29,7 +29,8 @@ class SmoothScrollManager {
             ease : ease,
             update : update,
             targetY: yStart || 0,
-            currentY: yStart || 0
+            currentY: yStart || 0,
+            paused : false
         };
 
         this.elements.push(object);
@@ -42,12 +43,12 @@ class SmoothScrollManager {
 
     pause(element) {
         var object = this.findElement(element);
-        object && object.virtual && object.virtual.off(this.onScroll.bind(this, element));
+        object.paused = true;
     }
 
     resume(element) {
         var object = this.findElement(element);
-        object && object.virtual && object.virtual.on(this.onScroll.bind(this, element));
+        object.paused = false;
     }
 
     findElement(element) {
@@ -84,6 +85,7 @@ class SmoothScrollManager {
     onScroll(element, e) {
         if (this.isStopped) return false;
         var object = this.findElement(element);
+        if (object.paused) return false;
         object.sectionHeight = object.el.getBoundingClientRect().height;
         object.targetY += e.deltaY;
         object.targetY = Math.max( (object.sectionHeight - window.innerHeight) * -1, object.targetY);
@@ -97,6 +99,7 @@ class SmoothScrollManager {
 
     run() {
         _.forEach(this.elements, (element) => {
+            if (elemeent.paused) return true;
             element.update && element.update(element.targetY);
             element.currentY += (element.targetY - element.currentY) * (element.ease ? element.ease : EASE);
             var t = 'translateY(' + element.currentY + 'px) translateZ(0)';
