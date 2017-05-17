@@ -30,6 +30,7 @@ class SmoothScrollManager {
             update : update,
             targetY: yStart || 0,
             currentY: yStart || 0,
+            sectionHeight : element.getBoundingClientRect().height,
             paused : false
         };
 
